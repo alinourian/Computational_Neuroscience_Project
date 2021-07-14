@@ -17,6 +17,7 @@ event = Output(1).events;
 y = ones(1,length(event));
 stem(event,y,'filled');
 xlim([event(1), event(end)]); ylim([0 1.5]); grid minor;
+
 %% =================== check func. getSpikeCountRate ======================
 clc;
 rate = getSpikeCountRate(Output);
@@ -52,5 +53,8 @@ SpikeTriggeredStimuli = Func_StimuliExtraction(events, msq1D);
 clc; clear;
 tview('000412.a01atune.log')
 
-
-
+%% //////////////// PART 4: Spike-Triggered Correlation \\\\\\\\\\\\\\\\\\\
+%% ==================== check func. SpatioTemporal ========================
+clc; clear;
+neuronCode = '000412.a01';
+ReceptiveFeilds = SpatioTemporal(neuronCode);
