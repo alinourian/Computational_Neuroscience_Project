@@ -1,14 +1,10 @@
-function receptiveField = SpatioTemporal(neuron)
-
-Output = Func_ReadData(neuron);
-event = Output(1).events;
+function [receptiveField, eigD] = SpatioTemporal(event)
 load('msq1D.mat');
 SpikeTriggeredStimuli = Func_StimuliExtraction(event, msq1D);
 
-Stimuli = reshape(SpikeTriggeredStimuli, 256, size(SpikeTriggeredStimuli,3));
-S = 1/size(Stimuli,2) * (Stimuli) * (Stimuli.') ;
-[V,D] = eig(S);
-D = diag(D);
+[V,D] = Decompose(SpikeTriggeredStimuli);
+
+eigD = D;
 receptiveField = V;
 
 figure;

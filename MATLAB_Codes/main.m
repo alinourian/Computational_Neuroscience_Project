@@ -56,5 +56,24 @@ tview('000412.a01atune.log')
 %% //////////////// PART 4: Spike-Triggered Correlation \\\\\\\\\\\\\\\\\\\
 %% ==================== check func. SpatioTemporal ========================
 clc; clear;
+load('msq1D');
 neuronCode = '000412.a01';
-ReceptiveFeilds = SpatioTemporal(neuronCode);
+Output = Func_ReadData(neuronCode);
+event = Output(1).events;
+ReceptiveFeilds = SpatioTemporal(event);
+
+%% ================== check func. CondfidenceInterval =====================
+[estimationLow, estimationHigh] = confidenceInterval(event, 5.2, 10);
+SpikeTriggeredStimuli = Func_StimuliExtraction(event, msq1D);
+[eigVec,eigVal] = Decompose(SpikeTriggeredStimuli);
+rank = 1:256;
+eigVal = sort(eigVal,'descend'); 
+estimationLow = sort(estimationLow,'descend'); 
+estimationHigh = sort(estimationHigh,'descend');
+plot(rank,eigVal,'o',rank,estimationHigh,'--',rank,estimationLow,'.');
+legend('Eigen Values','+5.2SD Eigen Values','-5.2SD Eigen Values');
+xlim([1 256]);
+
+%% ================= check func. CorrelationProjection ====================
+principalEigVec = eigVec(:,1:2);
+CorrelationProjection(event, principalEigVec);
