@@ -1,13 +1,14 @@
 %% ============================= load date ================================
-
 clear; clc; close all;
 
 load 'msq1D.mat';
 
 %% ======================== check func. fget_spk ==========================
-clc;
-str = 'Data\Spike_and_Log_Files\';
-[events,hdr] = fget_spk([str,'000412.a01\000412.a01atune.sa0'],'hdr');
+clc; clear;
+
+str = 'Data\Spike_and_Log_Files\000412.a01\';
+% [events,hdr] = fget_spk([str,'000412.a01atune.sa0'],'hdr');
+[events,hdr] = fget_spk('000412.a01atune.sa0','hdr');
 
 %% ===================== check func. Func_ReadData ========================
 clc; clear;
@@ -22,8 +23,8 @@ clc;
 rate = getSpikeCountRate(Output);
 
 %% ========================== plot histogram ==============================
-clc;
-clear;
+clc; clear;
+
 neuronsCodeStruct = dir('Data\Spike_and_Log_Files');
 neuronsCode = cell(length(neuronsCodeStruct)-2,1);
 for i=3:length(neuronsCodeStruct)
@@ -43,13 +44,30 @@ remainedRates = find(rates >= 2);
 removedRates = find(rates < 2);
 
 %% ================== check func. Func_StimuliExtraction ==================
-
+clc;
 load 'msq1D.mat';
-Stimuli = Func_StimuliExtraction(events, msq1D);
+Output = Func_ReadData('000412.a01');
+Stimuli = Func_StimuliExtraction(Output(1).events, msq1D);
 
-%%
+%% ========================= Output of func. tview ========================
 clc; clear;
-flog = tview('Data\Spike_and_Log_Files\000412.a01\000412.a01atune.log');
 
+mydir  = pwd; cd 'Data\Spike_and_Log_Files\000412.a01';
+flog1 = tview('000412.a01atune.log'); cd(mydir);
 
+mydir  = pwd; cd 'Data\Spike_and_Log_Files\000412.a01';
+flog2 = tview('000412.a01ftune.log'); cd(mydir);
+
+mydir  = pwd; cd 'Data\Spike_and_Log_Files\000511.b10';
+flog3 = tview('000511.b10otune.log'); cd(mydir);
+
+mydir  = pwd; cd 'Data\Spike_and_Log_Files\000802.c07';
+flog4 = tview('000802.c07atune.log'); cd(mydir);
+
+mydir  = pwd; cd 'Data\Spike_and_Log_Files\011101.A.d03';
+flog5 = tview('011101.A.d03atune.log'); cd(mydir);
+
+mydir  = pwd; cd 'Data\Spike_and_Log_Files\020321.A.i01';
+flog6 = tview('020321.A.i01atune.log'); cd(mydir);
+%% ========================================================================
 
